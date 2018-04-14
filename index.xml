@@ -6,6 +6,7 @@
     <description>Recent content on cuebyte</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
+    <copyright>&lt;a rel=&#34;noopener&#34; href=&#34;https://cuebyte.moe/&#34; target=&#34;_blank&#34;&gt;cuebyte&lt;/a&gt;</copyright>
     <lastBuildDate>Sun, 20 Aug 2017 21:38:52 +0800</lastBuildDate>
     
 	<atom:link href="https://cuebyte.moe/index.xml" rel="self" type="application/rss+xml" />
@@ -20,6 +21,15 @@
       <description>Hugo is a static site engine written in Go.
 It makes use of a variety of open source projects including:
  Cobra Viper J Walter Weatherman Cast  Learn more and contribute on GitHub.</description>
+    </item>
+    
+    <item>
+      <title>How to Build A Modern HTTPS Blog from Zero</title>
+      <link>https://cuebyte.moe/post/build-https-static-blog/</link>
+      <pubDate>Sat, 14 Apr 2018 11:14:54 +0200</pubDate>
+      
+      <guid>https://cuebyte.moe/post/build-https-static-blog/</guid>
+      <description>Static Blog vs. Wordpress To build a blog, Wordpress is always the best choice, anyone who has a public IP (costs 5 USD/mo.), will be easily to build a blog within 30 mins. People can also choice some service like ghost or wix or something else to build their personal blog, however their usually more expensive. I don&amp;rsquo;t want to pay $5 per month just for a blog, which only hosts static content, so I went for the most popular static content host solution: Github Pages, and the most popular (or even best) free CDN solution: CloudFlare, to boost my blog.</description>
     </item>
     
   </channel>

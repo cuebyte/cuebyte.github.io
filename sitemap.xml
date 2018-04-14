@@ -10,7 +10,21 @@
   </url>
   
   <url>
+    <loc>https://cuebyte.moe/post/build-https-static-blog/</loc>
+    <lastmod>2018-04-14T11:14:54+02:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://cuebyte.moe/categories/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://cuebyte.moe/post/</loc>
+    <lastmod>2018-04-14T11:14:54+02:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>

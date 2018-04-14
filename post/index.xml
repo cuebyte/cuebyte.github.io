@@ -2,37 +2,23 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on cuebyte</title>
-    <link>http://cuebyte.github.io/post/</link>
+    <link>https://cuebyte.moe/post/</link>
     <description>Recent content in Posts on cuebyte</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <copyright>cuebyte</copyright>
-    <lastBuildDate>Thu, 31 Aug 2017 15:43:48 +0800</lastBuildDate>
+    <copyright>&lt;a rel=&#34;noopener&#34; href=&#34;https://cuebyte.moe/&#34; target=&#34;_blank&#34;&gt;cuebyte&lt;/a&gt;</copyright>
+    <lastBuildDate>Sat, 14 Apr 2018 11:14:54 +0200</lastBuildDate>
     
-	<atom:link href="http://cuebyte.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://cuebyte.moe/post/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>English Creating a New Theme</title>
-      <link>http://cuebyte.github.io/post/english-preview/</link>
-      <pubDate>Thu, 31 Aug 2017 15:43:48 +0800</pubDate>
-      
-      <guid>http://cuebyte.github.io/post/english-preview/</guid>
-      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
-
-&lt;p&gt;This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content. I&amp;rsquo;ll explain how Hugo uses templates and how you can organize your templates to create a theme. I won&amp;rsquo;t cover using CSS to style your theme.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-    </item>
     
     <item>
-      <title>Creating a New Theme</title>
-      <link>http://cuebyte.github.io/post/creating-a-new-theme/</link>
-      <pubDate>Sun, 28 Sep 2014 00:00:00 +0000</pubDate>
+      <title>How to Build A Modern HTTPS Blog from Zero</title>
+      <link>https://cuebyte.moe/post/build-https-static-blog/</link>
+      <pubDate>Sat, 14 Apr 2018 11:14:54 +0200</pubDate>
       
-      <guid>http://cuebyte.github.io/post/creating-a-new-theme/</guid>
-      <description>Introduction This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content. I&amp;rsquo;ll explain how Hugo uses templates and how you can organize your templates to create a theme. I won&amp;rsquo;t cover using CSS to style your theme.
-We&amp;rsquo;ll start with creating a new site with a very basic template.</description>
+      <guid>https://cuebyte.moe/post/build-https-static-blog/</guid>
+      <description>Static Blog vs. Wordpress To build a blog, Wordpress is always the best choice, anyone who has a public IP (costs 5 USD/mo.), will be easily to build a blog within 30 mins. People can also choice some service like ghost or wix or something else to build their personal blog, however their usually more expensive. I don&amp;rsquo;t want to pay $5 per month just for a blog, which only hosts static content, so I went for the most popular static content host solution: Github Pages, and the most popular (or even best) free CDN solution: CloudFlare, to boost my blog.</description>
     </item>
     
   </channel>
