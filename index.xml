@@ -7,21 +7,10 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&lt;a rel=&#34;noopener&#34; href=&#34;https://cuebyte.moe/&#34; target=&#34;_blank&#34;&gt;cuebyte&lt;/a&gt;</copyright>
-    <lastBuildDate>Sun, 20 Aug 2017 21:38:52 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 14 Apr 2018 11:14:54 +0200</lastBuildDate>
     
 	<atom:link href="https://cuebyte.moe/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>About</title>
-      <link>https://cuebyte.moe/about/</link>
-      <pubDate>Sun, 20 Aug 2017 21:38:52 +0800</pubDate>
-      
-      <guid>https://cuebyte.moe/about/</guid>
-      <description>Hugo is a static site engine written in Go.
-It makes use of a variety of open source projects including:
- Cobra Viper J Walter Weatherman Cast  Learn more and contribute on GitHub.</description>
-    </item>
     
     <item>
       <title>How to Build A Modern HTTPS Blog from Zero</title>
