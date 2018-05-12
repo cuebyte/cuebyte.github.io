@@ -3,6 +3,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://cuebyte.moe/post/apache-http-logging-with-utf8/</loc>
+    <lastmod>2018-05-12T21:59:09+02:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://cuebyte.moe/post/build-https-static-blog/</loc>
     <lastmod>2018-04-17T10:24:54+02:00</lastmod>
     <changefreq>daily</changefreq>
@@ -38,7 +45,7 @@
   
   <url>
     <loc>https://cuebyte.moe/post/</loc>
-    <lastmod>2018-04-17T10:24:54+02:00</lastmod>
+    <lastmod>2018-05-12T21:59:09+02:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0</priority>
   </url>
@@ -59,7 +66,7 @@
   
   <url>
     <loc>https://cuebyte.moe/</loc>
-    <lastmod>2018-04-17T10:24:54+02:00</lastmod>
+    <lastmod>2018-05-12T21:59:09+02:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0</priority>
   </url>
