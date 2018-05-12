@@ -16,9 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="cuebyte" />
-  <meta name="description" content="When I read the logs from Apache HTTP Client, I found the Japanese / Korean words cannot be display, instead, there only some words like &amp;ldquo;[0x8a][0x7b][0x6c]…&amp;rdquo;. The log data is very important, we are not allow any unreadable data in the log, otherwise the logs gonna be useless.
-From the log infomation, we find the Apache HTTP Client logs the logs at Wire:72, then I go to the source, the code is below:" />
+<meta name="author" content="cuebyte" /><meta name="description" content="Logging UTF-8 string for Apache HTTP Client by overwriting the source code." />
 <meta name="keywords" content="Apache HTTP Client, logback, slf4j, UTF-8, utf8, open-source licenses, Apache License 2.0, java classloader" />
 
 
@@ -51,8 +49,7 @@ From the log infomation, we find the Apache HTTP Client logs the logs at Wire:72
 
 
 <meta property="og:title" content="How to Logging UTF-8 String for Apache HTTP Client?" />
-<meta property="og:description" content="When I read the logs from Apache HTTP Client, I found the Japanese / Korean words cannot be display, instead, there only some words like &ldquo;[0x8a][0x7b][0x6c]…&rdquo;. The log data is very important, we are not allow any unreadable data in the log, otherwise the logs gonna be useless.
-From the log infomation, we find the Apache HTTP Client logs the logs at Wire:72, then I go to the source, the code is below:" />
+<meta property="og:description" content="Logging UTF-8 string for Apache HTTP Client by overwriting the source code." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://cuebyte.moe/post/apache-http-logging-with-utf8/" />
 
@@ -73,21 +70,19 @@ From the log infomation, we find the Apache HTTP Client logs the logs at Wire:72
 
 
 <meta itemprop="name" content="How to Logging UTF-8 String for Apache HTTP Client?">
-<meta itemprop="description" content="When I read the logs from Apache HTTP Client, I found the Japanese / Korean words cannot be display, instead, there only some words like &ldquo;[0x8a][0x7b][0x6c]…&rdquo;. The log data is very important, we are not allow any unreadable data in the log, otherwise the logs gonna be useless.
-From the log infomation, we find the Apache HTTP Client logs the logs at Wire:72, then I go to the source, the code is below:">
+<meta itemprop="description" content="Logging UTF-8 string for Apache HTTP Client by overwriting the source code.">
 
 
 <meta itemprop="datePublished" content="2018-05-12T21:59:09&#43;02:00" />
 <meta itemprop="dateModified" content="2018-05-12T21:59:09&#43;02:00" />
-<meta itemprop="wordCount" content="302">
+<meta itemprop="wordCount" content="305">
 
 
 
-<meta itemprop="keywords" content="" />
+<meta itemprop="keywords" content="java," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="How to Logging UTF-8 String for Apache HTTP Client?"/>
-<meta name="twitter:description" content="When I read the logs from Apache HTTP Client, I found the Japanese / Korean words cannot be display, instead, there only some words like &ldquo;[0x8a][0x7b][0x6c]…&rdquo;. The log data is very important, we are not allow any unreadable data in the log, otherwise the logs gonna be useless.
-From the log infomation, we find the Apache HTTP Client logs the logs at Wire:72, then I go to the source, the code is below:"/>
+<meta name="twitter:description" content="Logging UTF-8 string for Apache HTTP Client by overwriting the source code."/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -138,7 +133,11 @@ From the log infomation, we find the Apache HTTP Client logs the logs at Wire:72
 
       <div class="post-meta">
         <span class="post-time"> 12 May. 2018 </span>
-        
+        <div class="post-category">
+            
+              <a href="/categories/solution/"> solution </a>
+            
+          </div>
         
         
       </div>
@@ -172,7 +171,7 @@ From the log infomation, we find the Apache HTTP Client logs the logs at Wire:72
 }
 </code></pre>
 
-<p>I don&rsquo;t know why it only supports ASCII here, it is already 2018… And the library even don&rsquo;t support any configuration to tuning the encoding or implements. So I made an implement by myself, to overwrite —— copy the source code to our project with the same package name, and simply change the logging code.</p>
+<p>I don&rsquo;t know why it only supports ASCII here, it is already 2018… And the library even don&rsquo;t support any configuration to tuning the encoding or implements. So I made an implement by myself, to overwrite the Wire.java file — copy the source code to our project with the same package name, and simply change the logging code.</p>
 
 <p>In my case, I modified the code as below:</p>
 
@@ -212,7 +211,11 @@ From the log infomation, we find the Apache HTTP Client logs the logs at Wire:72
     
 
     <footer class="post-footer">
-      
+      <div class="post-tags">
+          
+          <a href="/tags/java/">java</a>
+          
+        </div>
 
       
       <nav class="post-nav">

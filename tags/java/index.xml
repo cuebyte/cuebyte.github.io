@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Java on cuebyte</title>
+    <link>https://cuebyte.moe/tags/java/</link>
+    <description>Recent content in Java on cuebyte</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>&lt;a rel=&#34;noopener&#34; href=&#34;https://cuebyte.moe/&#34; target=&#34;_blank&#34;&gt;cuebyte&lt;/a&gt;</copyright>
+    <lastBuildDate>Sat, 12 May 2018 21:59:09 +0200</lastBuildDate>
+    
+	<atom:link href="https://cuebyte.moe/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>How to Logging UTF-8 String for Apache HTTP Client?</title>
+      <link>https://cuebyte.moe/post/apache-http-logging-with-utf8/</link>
+      <pubDate>Sat, 12 May 2018 21:59:09 +0200</pubDate>
+      
+      <guid>https://cuebyte.moe/post/apache-http-logging-with-utf8/</guid>
+      <description>When I read the logs from Apache HTTP Client, I found the Japanese / Korean words cannot be display, instead, there only some words like &amp;ldquo;[0x8a][0x7b][0x6c]…&amp;rdquo;. The log data is very important, we are not allow any unreadable data in the log, otherwise the logs gonna be useless.
+From the log infomation, we find the Apache HTTP Client logs the logs at Wire:72, then I go to the source, the code is below:</description>
+    </item>
+    
+  </channel>
+</rss>
