@@ -13,12 +13,13 @@
     
     
     <item>
-      <title>Apache Http Logging With Utf8</title>
+      <title>How to Logging UTF-8 String for Apache HTTP Client?</title>
       <link>https://cuebyte.moe/post/apache-http-logging-with-utf8/</link>
       <pubDate>Sat, 12 May 2018 21:59:09 +0200</pubDate>
       
       <guid>https://cuebyte.moe/post/apache-http-logging-with-utf8/</guid>
-      <description></description>
+      <description>When I read the logs from Apache HTTP Client, I found the Japanese / Korean words cannot be display, instead, there only some words like &amp;ldquo;[0x8a][0x7b][0x6c]…&amp;rdquo;. The log data is very important, we are not allow any unreadable data in the log, otherwise the logs gonna be useless.
+From the log infomation, we find the Apache HTTP Client logs the logs at Wire:72, then I go to the source, the code is below:</description>
     </item>
     
     <item>

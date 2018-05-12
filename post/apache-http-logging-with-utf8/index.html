@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Apache Http Logging With Utf8 - cuebyte</title>
+  <title>How to Logging UTF-8 String for Apache HTTP Client? - cuebyte</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -17,9 +17,10 @@
 
 
 <meta name="author" content="cuebyte" />
-  <meta name="description" content="" />
+  <meta name="description" content="When I read the logs from Apache HTTP Client, I found the Japanese / Korean words cannot be display, instead, there only some words like &amp;ldquo;[0x8a][0x7b][0x6c]…&amp;rdquo;. The log data is very important, we are not allow any unreadable data in the log, otherwise the logs gonna be useless.
+From the log infomation, we find the Apache HTTP Client logs the logs at Wire:72, then I go to the source, the code is below:" />
+<meta name="keywords" content="Apache HTTP Client, logback, slf4j, UTF-8, utf8, open-source licenses, Apache License 2.0, java classloader" />
 
-  <meta name="keywords" content="cuebyte, william.huang, wei.huang" />
 
 
 
@@ -49,8 +50,9 @@
 
 
 
-<meta property="og:title" content="Apache Http Logging With Utf8" />
-<meta property="og:description" content="" />
+<meta property="og:title" content="How to Logging UTF-8 String for Apache HTTP Client?" />
+<meta property="og:description" content="When I read the logs from Apache HTTP Client, I found the Japanese / Korean words cannot be display, instead, there only some words like &ldquo;[0x8a][0x7b][0x6c]…&rdquo;. The log data is very important, we are not allow any unreadable data in the log, otherwise the logs gonna be useless.
+From the log infomation, we find the Apache HTTP Client logs the logs at Wire:72, then I go to the source, the code is below:" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://cuebyte.moe/post/apache-http-logging-with-utf8/" />
 
@@ -58,7 +60,7 @@
 
 <meta property="article:published_time" content="2018-05-12T21:59:09&#43;02:00"/>
 
-<meta property="article:modified_time" content="2018-05-12T21:59:09&#43;02:00"/>
+<meta property="article:modified_time" content="2018-05-12T22:49:09&#43;02:00"/>
 
 
 
@@ -70,20 +72,22 @@
 
 
 
-<meta itemprop="name" content="Apache Http Logging With Utf8">
-<meta itemprop="description" content="">
+<meta itemprop="name" content="How to Logging UTF-8 String for Apache HTTP Client?">
+<meta itemprop="description" content="When I read the logs from Apache HTTP Client, I found the Japanese / Korean words cannot be display, instead, there only some words like &ldquo;[0x8a][0x7b][0x6c]…&rdquo;. The log data is very important, we are not allow any unreadable data in the log, otherwise the logs gonna be useless.
+From the log infomation, we find the Apache HTTP Client logs the logs at Wire:72, then I go to the source, the code is below:">
 
 
 <meta itemprop="datePublished" content="2018-05-12T21:59:09&#43;02:00" />
 <meta itemprop="dateModified" content="2018-05-12T21:59:09&#43;02:00" />
-<meta itemprop="wordCount" content="0">
+<meta itemprop="wordCount" content="302">
 
 
 
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Apache Http Logging With Utf8"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:title" content="How to Logging UTF-8 String for Apache HTTP Client?"/>
+<meta name="twitter:description" content="When I read the logs from Apache HTTP Client, I found the Japanese / Korean words cannot be display, instead, there only some words like &ldquo;[0x8a][0x7b][0x6c]…&rdquo;. The log data is very important, we are not allow any unreadable data in the log, otherwise the logs gonna be useless.
+From the log infomation, we find the Apache HTTP Client logs the logs at Wire:72, then I go to the source, the code is below:"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -130,7 +134,7 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">Apache Http Logging With Utf8</h1>
+      <h1 class="post-title">How to Logging UTF-8 String for Apache HTTP Client?</h1>
 
       <div class="post-meta">
         <span class="post-time"> 12 May. 2018 </span>
@@ -145,7 +149,46 @@
 
     
     <div class="post-content">
-      
+      <p>When I read the logs from Apache HTTP Client, I found the Japanese / Korean words cannot be display, instead, there only some words like &ldquo;[0x8a][0x7b][0x6c]…&rdquo;. The log data is very important, we are not allow any unreadable data in the log, otherwise the logs gonna be useless.</p>
+
+<p>From the log infomation, we find the Apache HTTP Client logs the logs at Wire:72, then I go to the source, the code is below:</p>
+
+<pre><code class="language-java">while ((ch = instream.read()) != -1) {
+    if (ch == 13) {
+        buffer.append(&quot;[\\r]&quot;);
+    } else if (ch == 10) {
+        buffer.append(&quot;[\\n]\&quot;&quot;);
+        buffer.insert(0, &quot;\&quot;&quot;);
+        buffer.insert(0, header);
+        log.debug(buffer.toString());
+        buffer.setLength(0);
+    } else if ((ch &lt; 32) || (ch &gt; 127)) {
+        buffer.append(&quot;[0x&quot;);
+        buffer.append(Integer.toHexString(ch));
+        buffer.append(&quot;]&quot;);
+    } else {
+        buffer.append((char) ch);
+    }
+}
+</code></pre>
+
+<p>I don&rsquo;t know why it only supports ASCII here, it is already 2018… And the library even don&rsquo;t support any configuration to tuning the encoding or implements. So I made an implement by myself, to overwrite —— copy the source code to our project with the same package name, and simply change the logging code.</p>
+
+<p>In my case, I modified the code as below:</p>
+
+<pre><code class="language-java">try (Reader reader = new BufferedReader(new InputStreamReader
+        (instream, Charset.forName(StandardCharsets.UTF_8.name())))) {
+    int c = 0;
+    while ((c = reader.read()) != -1) {
+        buffer.append((char) c);
+    }
+}
+</code></pre>
+
+<p>This logging code will support the UTF-8 well, and will not break the HTTP request / response infomation into multi log lines.</p>
+
+<p>You can change the code to whatever you like, but please keep in mind, <strong>when you changing the code, you have to follow the open source license</strong>. For my instance, the Apache HTTP Client library is with the Apache License 2.0, it means the library can be used for commercial, however I have to make the changed source code under the Apache License 2.0, and to name where I modified.</p>
+
     </div>
 
     
