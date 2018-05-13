@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>How to Logging UTF-8 String for Apache HTTP Client? - cuebyte</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="cuebyte" /><meta name="description" content="Logging UTF-8 string for Apache HTTP Client by overwriting the source code." />
+<meta name="keywords" content="Apache HTTP Client, logback, slf4j, UTF-8, utf8, open-source licenses, Apache License 2.0, java classloader" />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.40.3" />
+
+
+<link rel="canonical" href="https://cuebyte.moe/post/apache-http-client-logging-utf8/" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+<link href="/dist/even.min.css?v=3.1.1" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+
+
+<meta property="og:title" content="How to Logging UTF-8 String for Apache HTTP Client?" />
+<meta property="og:description" content="Logging UTF-8 string for Apache HTTP Client by overwriting the source code." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://cuebyte.moe/post/apache-http-client-logging-utf8/" />
+
+
+
+<meta property="article:published_time" content="2018-05-12T21:59:09&#43;02:00"/>
+
+<meta property="article:modified_time" content="2018-05-12T22:49:09&#43;02:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="How to Logging UTF-8 String for Apache HTTP Client?">
+<meta itemprop="description" content="Logging UTF-8 string for Apache HTTP Client by overwriting the source code.">
+
+
+<meta itemprop="datePublished" content="2018-05-12T21:59:09&#43;02:00" />
+<meta itemprop="dateModified" content="2018-05-12T21:59:09&#43;02:00" />
+<meta itemprop="wordCount" content="305">
+
+
+
+<meta itemprop="keywords" content="java," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="How to Logging UTF-8 String for Apache HTTP Client?"/>
+<meta name="twitter:description" content="Logging UTF-8 string for Apache HTTP Client by overwriting the source code."/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">cuebyte</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">cuebyte</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">How to Logging UTF-8 String for Apache HTTP Client?</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 12 May. 2018 </span>
+        <div class="post-category">
+            
+              <a href="/categories/solution/"> solution </a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    
+    <div class="post-content">
+      <p>When I read the logs from Apache HTTP Client, I found the Japanese / Korean words cannot be display, instead, there only some words like &ldquo;[0x8a][0x7b][0x6c]…&rdquo;. The log data is very important, we are not allow any unreadable data in the log, otherwise the logs gonna be useless.</p>
+
+<p>From the log infomation, we find the Apache HTTP Client logs the logs at Wire:72, then I go to the source, the code is below:</p>
+
+<pre><code class="language-java">while ((ch = instream.read()) != -1) {
+    if (ch == 13) {
+        buffer.append(&quot;[\\r]&quot;);
+    } else if (ch == 10) {
+        buffer.append(&quot;[\\n]\&quot;&quot;);
+        buffer.insert(0, &quot;\&quot;&quot;);
+        buffer.insert(0, header);
+        log.debug(buffer.toString());
+        buffer.setLength(0);
+    } else if ((ch &lt; 32) || (ch &gt; 127)) {
+        buffer.append(&quot;[0x&quot;);
+        buffer.append(Integer.toHexString(ch));
+        buffer.append(&quot;]&quot;);
+    } else {
+        buffer.append((char) ch);
+    }
+}
+</code></pre>
+
+<p>I don&rsquo;t know why it only supports ASCII here, it is already 2018… And the library even don&rsquo;t support any configuration to tuning the encoding or implements. So I made an implement by myself, to overwrite the Wire.java file — copy the source code to our project with the same package name, and simply change the logging code.</p>
+
+<p>In my case, I modified the code as below:</p>
+
+<pre><code class="language-java">try (Reader reader = new BufferedReader(new InputStreamReader
+        (instream, Charset.forName(StandardCharsets.UTF_8.name())))) {
+    int c = 0;
+    while ((c = reader.read()) != -1) {
+        buffer.append((char) c);
+    }
+}
+</code></pre>
+
+<p>This logging code will support the UTF-8 well, and will not break the HTTP request / response infomation into multi log lines.</p>
+
+<p>You can change the code to whatever you like, but please keep in mind, <strong>when you changing the code, you have to follow the open source license</strong>. For my instance, the Apache HTTP Client library is with the Apache License 2.0, it means the library can be used for commercial, however I have to make the changed source code under the Apache License 2.0, and to name where I modified.</p>
+
+    </div>
+
+    
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">cuebyte</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">12 May. 2018</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags/java/">java</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/build-https-static-blog/">
+            <span class="next-text nav-default">How to Build A Modern HTTPS Blog from Zero</span>
+            <span class="prev-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'cuebyte-moe';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@william.huang.de@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://twitter.com/cuebyte" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/cuebyte" class="iconfont icon-github" title="github"></a>
+  <a href="https://cuebyte.moe/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author"><a rel="noopener" href="https://cuebyte.moe/" target="_blank">cuebyte</a></span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.min.js?v=3.1.1"></script>
+
+
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-117523774-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='//www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>
